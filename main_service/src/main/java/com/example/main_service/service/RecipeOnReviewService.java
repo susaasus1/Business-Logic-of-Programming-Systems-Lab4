@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.example.main_service.dto.EmailDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +29,14 @@ public class RecipeOnReviewService {
 
     private final NationalCuisineService nationalCuisineService;
 
+    private final EmailService emailService;
+
 
     public RecipeOnReviewService(RecipeRepository recipeRepository,
                                  RecipeOnReviewRepository recipeOnReviewRepository,
                                  UserService userService, DishService dishService,
                                  IngredientsService ingredientsService, TastesService tastesService,
-                                 NationalCuisineService nationalCuisineService) {
+                                 NationalCuisineService nationalCuisineService, EmailService emailService) {
         this.recipeRepository = recipeRepository;
         this.recipeOnReviewRepository = recipeOnReviewRepository;
         this.userService = userService;
@@ -41,7 +44,7 @@ public class RecipeOnReviewService {
         this.ingredientsService = ingredientsService;
         this.tastesService = tastesService;
         this.nationalCuisineService = nationalCuisineService;
-
+        this.emailService = emailService;
     }
 
     public void saveRecipe(Long id, String admin) {
@@ -69,8 +72,12 @@ public class RecipeOnReviewService {
         }
         recipeOnReviewRepository.deleteById(id);
         recipeRepository.save(recipe);
-
-
+        emailService.sendSimpleMail(
+                new EmailDetails(user.getEmail(),
+                        "Ваш рецепт №" + recipe.getId() + " был проверен и добавлен администратором " + admin,
+                        "Добавление рецепта на сайте povarenok.ru"
+                )
+        );
     }
 
     public void deleteRecipe(Long id, String admin, String declineReason) {
@@ -82,8 +89,12 @@ public class RecipeOnReviewService {
         String email = recipe.get().getUser().getEmail();
 
         recipeOnReviewRepository.deleteById(id);
-
-
+        emailService.sendSimpleMail(
+                new EmailDetails(email,
+                        "Ваш рецепт №" + recipe.get().getId() + " был отклонен администратором " + admin + " по причине: " + declineReason,
+                        "Добавление рецепта на сайте povarenok.ru"
+                )
+        );
     }
 
     public Page<RecipeOnReview> getAllRecipesOnReview(int page, int size, String sortOrder) {
