@@ -1,0 +1,37 @@
+services:
+
+  main_service:
+    image: main_service-image
+    build: ./main_service/
+    container_name: main_service
+    depends_on:
+      - db1
+    ports:
+      - 8085:8900
+    restart: on-failure
+    environment:
+      - SERVER_PORT=8900
+      - SPRING_DATASOURCE_BASIC_URL=jdbc:postgresql://db1:5432/basic
+      - SPRING_DATASOURCE_BASIC_USERNAME=postgres
+      - SPRING_DATASOURCE_BASIC_PASSWORD=20021700sa
+
+  db1:
+    image: postgres:15
+    container_name: db1
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "max_prepared_transactions=100"
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: "basic"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "20021700sa"
+    volumes:
+      - basic_data:/var/lib/postgresql/data
+
+volumes:
+  basic_data:
