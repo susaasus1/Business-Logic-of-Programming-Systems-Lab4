@@ -108,7 +108,7 @@ public class RecipeService {
         return recipeRepository.findAll(pageable);
     }
 
-    @Scheduled(fixedRate = 9000L)
+    @Scheduled(fixedRate = 3600000L)
     public void updateRecipeOfTheDay() {
         List<Long> ids = recipeRepository.findIds();
         if (!ids.isEmpty()) {
