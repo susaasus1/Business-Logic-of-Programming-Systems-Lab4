@@ -4,12 +4,16 @@ import com.example.main_service.security.CookUserDetails;
 import com.example.main_service.security.CookUserDetailsService;
 import com.example.main_service.security.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Named;
+import java.util.List;
 
 @Component
 @Named
@@ -29,13 +33,18 @@ public class SignIn implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         String username = (String) delegateExecution.getVariable("username");
         String password = (String) delegateExecution.getVariable("password");
-        CookUserDetails userDetails = (CookUserDetails) cookUserDetailsService.loadUserByUsername(username);
+        try {
+            CookUserDetails userDetails = (CookUserDetails) cookUserDetailsService.loadUserByUsername(username);
+            String accessToken = jwtUtils.generateJWTToken(userDetails.getUsername(), userDetails.getAuthorities(), userDetails.getEmail());
+            String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUsername(), userDetails.getAuthorities(), userDetails.getEmail());
+            List<GrantedAuthority> authorities = (List<GrantedAuthority>) userDetails.getAuthorities();
+            delegateExecution.setVariable("accessToken", accessToken);
+            delegateExecution.setVariable("refreshToken", refreshToken);
+            delegateExecution.setVariable("role", authorities.get(0));
+            delegateExecution.setVariable("username", username);
+        } catch (UsernameNotFoundException e) {
+            throw new BpmnError("User not found");
+        }
 
-        String accessToken = jwtUtils.generateJWTToken(userDetails.getUsername(), userDetails.getAuthorities(), userDetails.getEmail());
-        String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUsername(), userDetails.getAuthorities(), userDetails.getEmail());
-
-        delegateExecution.setVariable("accessToken", accessToken);
-        delegateExecution.setVariable("refreshToken", refreshToken);
-        delegateExecution.setVariable("username", username);
     }
 }
