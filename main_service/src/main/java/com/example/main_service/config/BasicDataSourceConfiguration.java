@@ -72,6 +72,7 @@ public class BasicDataSourceConfiguration {
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(ds);
         xaDataSource.setUniqueResourceName("xa_basic");
+        xaDataSource.setMaxPoolSize(100);
         return xaDataSource;
     }
 }
