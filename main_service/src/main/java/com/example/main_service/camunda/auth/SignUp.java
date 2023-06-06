@@ -66,6 +66,7 @@ public class SignUp implements JavaDelegate {
         String refreshToken = jwtUtils.generateRefreshToken(username, authorities, email);
 
         delegateExecution.setVariable("accessToken", accessToken);
+        delegateExecution.setVariable("role", userRole.getName());
         delegateExecution.setVariable("refreshToken", refreshToken);
     }
 }
