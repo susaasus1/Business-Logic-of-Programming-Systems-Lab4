@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "label": "page",
+      "type": "number",
+      "layout": {
+        "row": "Row_016oz1j",
+        "columns": null
+      },
+      "id": "Field_1qekqc9",
+      "key": "page"
+    },
+    {
+      "label": "size",
+      "type": "number",
+      "layout": {
+        "row": "Row_1tbgtxs",
+        "columns": null
+      },
+      "id": "Field_1o8vpok",
+      "key": "size"
+    }
+  ],
+  "type": "default",
+  "id": "pageSize",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "schemaVersion": 8
+}

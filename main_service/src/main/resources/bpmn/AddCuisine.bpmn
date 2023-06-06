@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0j9jslx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="addCuisine" name="AddCuisine" isExecutable="true" camunda:historyTimeToLive="500">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0es5vzx</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0es5vzx" sourceRef="StartEvent_1" targetRef="Activity_19tiu7z" />
+    <bpmn:sequenceFlow id="Flow_18wi9va" sourceRef="Activity_19tiu7z" targetRef="Activity_0ljawnf" />
+    <bpmn:serviceTask id="Activity_0ljawnf" name="Процесс сохранения" camunda:delegateExpression="#{addCuisine}">
+      <bpmn:incoming>Flow_18wi9va</bpmn:incoming>
+      <bpmn:outgoing>Flow_183fqi0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1x7hn95" sourceRef="Event_0i3l8hc" targetRef="Activity_1r30804" />
+    <bpmn:boundaryEvent id="Event_0i3l8hc" attachedToRef="Activity_0ljawnf">
+      <bpmn:outgoing>Flow_1x7hn95</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_14ye35g" errorRef="Error_0ksjgs7" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1i3v93s">
+      <bpmn:incoming>Flow_0bwtpzk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0bwtpzk" sourceRef="Activity_1r30804" targetRef="Event_1i3v93s" />
+    <bpmn:sequenceFlow id="Flow_183fqi0" sourceRef="Activity_0ljawnf" targetRef="Activity_06yzz9n" />
+    <bpmn:endEvent id="Event_08o06s5">
+      <bpmn:incoming>Flow_0muxff2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0muxff2" sourceRef="Activity_06yzz9n" targetRef="Event_08o06s5" />
+    <bpmn:userTask id="Activity_19tiu7z" name="Ввод данных" camunda:formRef="cuisineName" camunda:formRefBinding="latest">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0es5vzx</bpmn:incoming>
+      <bpmn:outgoing>Flow_18wi9va</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1r30804" name="Произошла ошибка!">
+      <bpmn:incoming>Flow_1x7hn95</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bwtpzk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_06yzz9n" name="Получение информации о добавленной кухне">
+      <bpmn:incoming>Flow_183fqi0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0muxff2</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:error id="Error_0ksjgs7" name="Cuisine Error!" errorCode="cuisineError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="addCuisine">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0f9180f_di" bpmnElement="Activity_0ljawnf">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1i3v93s_di" bpmnElement="Event_1i3v93s">
+        <dc:Bounds x="462" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08o06s5_di" bpmnElement="Event_08o06s5">
+        <dc:Bounds x="752" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oyzb0w_di" bpmnElement="Activity_19tiu7z">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1065tq2_di" bpmnElement="Activity_1r30804">
+        <dc:Bounds x="430" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0szublv_di" bpmnElement="Activity_06yzz9n">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1x56dlw_di" bpmnElement="Event_0i3l8hc">
+        <dc:Bounds x="492" y="139" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0es5vzx_di" bpmnElement="Flow_0es5vzx">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18wi9va_di" bpmnElement="Flow_18wi9va">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x7hn95_di" bpmnElement="Flow_1x7hn95">
+        <di:waypoint x="510" y="175" />
+        <di:waypoint x="510" y="193" />
+        <di:waypoint x="480" y="193" />
+        <di:waypoint x="480" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bwtpzk_di" bpmnElement="Flow_0bwtpzk">
+        <di:waypoint x="480" y="290" />
+        <di:waypoint x="480" y="322" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_183fqi0_di" bpmnElement="Flow_183fqi0">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0muxff2_di" bpmnElement="Flow_0muxff2">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="752" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "cuisineName",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_11wgo6q",
+        "columns": null
+      },
+      "id": "Field_0gdwmq4",
+      "key": "cuisineName"
+    }
+  ],
+  "type": "default",
+  "id": "cuisineName",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "schemaVersion": 8
+}
