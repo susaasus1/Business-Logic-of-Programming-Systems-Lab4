@@ -34,18 +34,18 @@ public class NationalCuisineService {
 
     public void deleteCuisine(Long cuisineId) {
         if (!nationalCuisineRepository.existsById(cuisineId))
-            throw new ResourceNotFoundException("Ингредиент с id=" + cuisineId + " не существует!");
+            throw new ResourceNotFoundException("Национальная кухня с id = " + cuisineId + " не существует!");
         nationalCuisineRepository.deleteById(cuisineId);
     }
 
     public NationalCuisine updateCuisine(Long cuisineId, UpdateCuisineRequest updateCuisineRequest) {
-        NationalCuisine nationalCuisine = nationalCuisineRepository.findNationalCuisineById(cuisineId).orElseThrow(() -> new ResourceNotFoundException("Кухни с id=" + cuisineId + " не существует!"));
+        NationalCuisine nationalCuisine = nationalCuisineRepository.findNationalCuisineById(cuisineId).orElseThrow(() -> new ResourceNotFoundException("Кухни с id = " + cuisineId + " не существует!"));
         nationalCuisine.setCuisine(updateCuisineRequest.getCuisine());
         return nationalCuisineRepository.save(nationalCuisine);
     }
 
     public NationalCuisine getCuisine(Long cuisineId) {
-        NationalCuisine nationalCuisine = nationalCuisineRepository.findNationalCuisineById(cuisineId).orElseThrow(() -> new ResourceNotFoundException("Кухни с id=" + cuisineId + " не существует!"));
+        NationalCuisine nationalCuisine = nationalCuisineRepository.findNationalCuisineById(cuisineId).orElseThrow(() -> new ResourceNotFoundException("Кухни с id = " + cuisineId + " не существует!"));
         return nationalCuisine;
     }
 

@@ -22,4 +22,11 @@ public class NationalCuisine {
     }
 
 
+    @Override
+    public String toString() {
+        return "NationalCuisine{" +
+                "id=" + id +
+                ", cuisine='" + cuisine + '\'' +
+                '}';
+    }
 }
