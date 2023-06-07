@@ -7,10 +7,13 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
+
+
 @Component
 public class DeleteCuisine implements JavaDelegate {
 
     private final NationalCuisineService nationalCuisineService;
+
 
     public DeleteCuisine(NationalCuisineService nationalCuisineService) {
         this.nationalCuisineService = nationalCuisineService;
@@ -18,6 +21,11 @@ public class DeleteCuisine implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
+        String role = (String) delegateExecution.getVariable("role");
+        if (!role.equals("ROLE_ADMIN")) {
+            delegateExecution.setVariable("errorMessage", "Недостаточно прав для выполнения этой операции!");
+            throw new BpmnError("cuisineError");
+        }
         Integer cuisineId = (Integer) delegateExecution.getVariable("cuisineId");
         try {
             nationalCuisineService.deleteCuisine(Long.valueOf(cuisineId));

@@ -13,16 +13,23 @@ import org.springframework.stereotype.Component;
 public class UpdateCuisine implements JavaDelegate {
     private final NationalCuisineService nationalCuisineService;
 
+
     public UpdateCuisine(NationalCuisineService nationalCuisineService) {
         this.nationalCuisineService = nationalCuisineService;
     }
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
+        String role = (String) delegateExecution.getVariable("role");
+        if (!role.equals("ROLE_ADMIN")) {
+            delegateExecution.setVariable("errorMessage", "Недостаточно прав для выполнения этой операции!");
+            throw new BpmnError("cuisineError");
+        }
+
         Integer cuisineId = (Integer) delegateExecution.getVariable("cuisineId");
         String cuisineName = (String) delegateExecution.getVariable("cuisineName");
 
-        if (cuisineId == null){
+        if (cuisineId == null) {
             delegateExecution.setVariable("errorMessage", "Введите cuisineId!");
             throw new BpmnError("cuisineError");
         }
@@ -31,7 +38,6 @@ public class UpdateCuisine implements JavaDelegate {
             delegateExecution.setVariable("errorMessage", "Введено некорректное название кухни! От 1 до 64 символов");
             throw new BpmnError("cuisineError");
         }
-
 
         NationalCuisine updatedNationalCuisine;
         try {

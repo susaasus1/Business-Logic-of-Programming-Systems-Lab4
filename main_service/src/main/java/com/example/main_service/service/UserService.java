@@ -14,6 +14,9 @@ import com.example.main_service.security.CookUserDetails;
 import com.example.main_service.security.CookUserDetailsService;
 import com.example.main_service.security.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,7 +48,12 @@ public class UserService {
     }
 
     public AccessAndRefreshToken authUser(SignInRequest signInRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signInRequest.getLogin(), signInRequest.getPassword())
+        );
         CookUserDetails userDetails = (CookUserDetails) cookUserDetailsService.loadUserByUsername(signInRequest.getLogin());
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateJWTToken(userDetails.getUsername(), userDetails.getAuthorities(), userDetails.getEmail());
         String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUsername(),  userDetails.getAuthorities(), userDetails.getEmail());
         return new AccessAndRefreshToken(accessToken, refreshToken);

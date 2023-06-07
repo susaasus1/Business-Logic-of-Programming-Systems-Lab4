@@ -14,12 +14,18 @@ public class AddCuisine implements JavaDelegate {
 
     private final NationalCuisineService nationalCuisineService;
 
-    public AddCuisine(NationalCuisineService nationalCuisineService) {
+    public AddCuisine(NationalCuisineService nationalCuisineService ) {
         this.nationalCuisineService = nationalCuisineService;
     }
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
+        String role = (String) delegateExecution.getVariable("role");
+        if (!role.equals("ROLE_ADMIN")) {
+            delegateExecution.setVariable("errorMessage", "Недостаточно прав для выполнения этой операции!");
+            throw new BpmnError("cuisineError");
+        }
+
         String cuisineName = (String) delegateExecution.getVariable("cuisineName");
 
         if (cuisineName.isBlank() || cuisineName.isEmpty() || cuisineName.length() > 64) {

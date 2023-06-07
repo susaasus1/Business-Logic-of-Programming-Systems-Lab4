@@ -1,72 +1,52 @@
 package com.example.main_service.camunda.auth;
 
+import com.example.main_service.dto.request.SignUpRequest;
+import com.example.main_service.exception.ResourceAlreadyExistException;
+import com.example.main_service.exception.ResourceNotFoundException;
 import com.example.main_service.model.ERole;
-import com.example.main_service.model.Role;
-import com.example.main_service.model.User;
-import com.example.main_service.repository.RoleRepository;
-import com.example.main_service.repository.UserRepository;
-import com.example.main_service.security.CookUserDetails;
-import com.example.main_service.security.CookUserDetailsService;
-import com.example.main_service.security.JwtUtils;
+import com.example.main_service.service.UserService;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class SignUp implements JavaDelegate {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
-    private final JwtUtils jwtUtils;
-    private final CookUserDetailsService cookUserDetailsService;
 
-    public SignUp(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, JwtUtils jwtUtils, CookUserDetailsService cookUserDetailsService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
-        this.jwtUtils = jwtUtils;
-        this.cookUserDetailsService = cookUserDetailsService;
+    private final UserService userService;
+
+    public SignUp(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public void execute(DelegateExecution delegateExecution) throws Exception {
+    public void execute(DelegateExecution delegateExecution) {
         String username = (String) delegateExecution.getVariable("username");
         String password = (String) delegateExecution.getVariable("password");
         String email = (String) delegateExecution.getVariable("email");
-        System.out.println(username);
-        if (userRepository.existsUserByLogin(username)) {
-            throw new BpmnError("This login already exist");
+
+
+        if (username.length() < 5 || username.length() > 255) {
+            delegateExecution.setVariable("errorMessage", "Некорректный логин! От 5 до 255 символов");
+            throw new BpmnError("signUpError");
         }
-        if (userRepository.existsUserByEmail(email)) {
-            throw new BpmnError("This email already exist");
+
+        if (password.length() < 8 || password.length() > 255) {
+            delegateExecution.setVariable("errorMessage", "Некорректный пароль! От 8 до 255 символов");
+            throw new BpmnError("signUpError");
         }
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository
-                .findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new BpmnError("Роль USER не найдена!"));
-        roles.add(userRole);
-        User user = new User(username, password, email, roles);
-        userRepository.save(user);
-        List<GrantedAuthority> authorities = roles.stream()
-                .map(roles2 -> new SimpleGrantedAuthority(roles2.getName().name()))
-                .collect(Collectors.toList());
+        if (email.length() < 1 || email.length() > 255) {
+            delegateExecution.setVariable("errorMessage", "Некорректная электронная почта! От 1 до 255 символов");
+            throw new BpmnError("signUpError");
+        }
 
-        String accessToken = jwtUtils.generateJWTToken(username, authorities, email);
-        String refreshToken = jwtUtils.generateRefreshToken(username, authorities, email);
+        try {
+            userService.saveNewUser(new SignUpRequest(username, password, email), ERole.ROLE_USER);
+        } catch (ResourceAlreadyExistException | ResourceNotFoundException e) {
+            delegateExecution.setVariable("errorMessage", e.getMessage());
+            throw new BpmnError("signUpError");
+        }
 
-        delegateExecution.setVariable("accessToken", accessToken);
-        delegateExecution.setVariable("role", userRole.getName());
-        delegateExecution.setVariable("refreshToken", refreshToken);
     }
 }
