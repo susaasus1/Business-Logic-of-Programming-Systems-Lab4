@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "label": "cuisineId",
+      "type": "number",
+      "layout": {
+        "row": "Row_05exon1",
+        "columns": null
+      },
+      "id": "Field_0083oi2",
+      "key": "cuisineId"
+    },
+    {
+      "label": "cuisineName",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0yxurtp",
+        "columns": null
+      },
+      "id": "Field_13q4tvf",
+      "key": "cuisineName"
+    }
+  ],
+  "type": "default",
+  "id": "updateCuisine",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "schemaVersion": 8
+}

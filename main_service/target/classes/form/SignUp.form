@@ -4,27 +4,36 @@
       "label": "username",
       "type": "textfield",
       "layout": {
-        "row": "Row_06j06uu",
+        "row": "Row_0bv75wo",
         "columns": null
       },
-      "id": "Field_0bn8uim",
-      "key": "username",
-      "defaultValue": "admin"
+      "id": "Field_1lch63y",
+      "key": "username"
     },
     {
       "label": "password",
       "type": "textfield",
       "layout": {
-        "row": "Row_09n77yy",
+        "row": "Row_1lj8c2v",
         "columns": null
       },
-      "id": "Field_0gr7nit",
+      "id": "Field_0kznvty",
       "key": "password",
-      "defaultValue": "adminadmin"
+      "properties": {}
+    },
+    {
+      "label": "email",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ndoyij",
+        "columns": null
+      },
+      "id": "Field_07jdwxb",
+      "key": "email"
     }
   ],
   "type": "default",
-  "id": "signin",
+  "id": "signUp",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.11.0"

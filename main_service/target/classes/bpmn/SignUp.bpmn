@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1vbz4vj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="signUp" name="SignUp" isExecutable="true" camunda:historyTimeToLive="500">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1ix4war</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1iuqp0s" name="Ввести данные" camunda:formRef="signUp" camunda:formRefBinding="latest">
+      <bpmn:incoming>Flow_1ix4war</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uz5zgo</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1ix4war" sourceRef="StartEvent_1" targetRef="Activity_1iuqp0s" />
+    <bpmn:serviceTask id="Activity_1fggpwp" name="Процесс регистрации" camunda:delegateExpression="#{signUp}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1uz5zgo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kh0pyq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1uz5zgo" sourceRef="Activity_1iuqp0s" targetRef="Activity_1fggpwp" />
+    <bpmn:userTask id="Activity_1lw88nn" name="Привет, ${username}!">
+      <bpmn:incoming>Flow_0kh0pyq</bpmn:incoming>
+      <bpmn:outgoing>Flow_088zwqt</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0kh0pyq" sourceRef="Activity_1fggpwp" targetRef="Activity_1lw88nn" />
+    <bpmn:endEvent id="Event_1cniln3">
+      <bpmn:incoming>Flow_088zwqt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_088zwqt" sourceRef="Activity_1lw88nn" targetRef="Event_1cniln3" />
+    <bpmn:boundaryEvent id="Event_1kjw7qu" attachedToRef="Activity_1fggpwp">
+      <bpmn:outgoing>Flow_15auyrg</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_044tcn2" errorRef="Error_054phv3" camunda:errorCodeVariable="signUpError" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_15auyrg" sourceRef="Event_1kjw7qu" targetRef="Activity_0vd1apn" />
+    <bpmn:userTask id="Activity_0vd1apn" name="Ошибка регистрации! Логин/почта заняты">
+      <bpmn:incoming>Flow_15auyrg</bpmn:incoming>
+      <bpmn:outgoing>Flow_16rkadp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0cxdf33">
+      <bpmn:incoming>Flow_16rkadp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_16rkadp" sourceRef="Activity_0vd1apn" targetRef="Event_0cxdf33" />
+  </bpmn:process>
+  <bpmn:error id="Error_1bsq1aw" name="SignUp Error!" errorCode="signUpError" />
+  <bpmn:error id="Error_0tm6m5n" name="This login already exist" errorCode="This login already exist" />
+  <bpmn:error id="Error_054phv3" name="SignUp Error" errorCode="signUpError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="signUp">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="319" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_141hqjf_di" bpmnElement="Activity_1iuqp0s">
+        <dc:Bounds x="331" y="297" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kuz7in_di" bpmnElement="Activity_1fggpwp">
+        <dc:Bounds x="530" y="297" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s026lf_di" bpmnElement="Activity_1lw88nn">
+        <dc:Bounds x="730" y="297" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cniln3_di" bpmnElement="Event_1cniln3">
+        <dc:Bounds x="922" y="319" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cn27in_di" bpmnElement="Activity_0vd1apn">
+        <dc:Bounds x="530" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0cxdf33_di" bpmnElement="Event_0cxdf33">
+        <dc:Bounds x="562" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ylvz4r_di" bpmnElement="Event_1kjw7qu">
+        <dc:Bounds x="592" y="279" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ix4war_di" bpmnElement="Flow_1ix4war">
+        <di:waypoint x="215" y="337" />
+        <di:waypoint x="331" y="337" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uz5zgo_di" bpmnElement="Flow_1uz5zgo">
+        <di:waypoint x="431" y="337" />
+        <di:waypoint x="530" y="337" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kh0pyq_di" bpmnElement="Flow_0kh0pyq">
+        <di:waypoint x="630" y="337" />
+        <di:waypoint x="730" y="337" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_088zwqt_di" bpmnElement="Flow_088zwqt">
+        <di:waypoint x="830" y="337" />
+        <di:waypoint x="922" y="337" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15auyrg_di" bpmnElement="Flow_15auyrg">
+        <di:waypoint x="610" y="279" />
+        <di:waypoint x="610" y="255" />
+        <di:waypoint x="580" y="255" />
+        <di:waypoint x="580" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16rkadp_di" bpmnElement="Flow_16rkadp">
+        <di:waypoint x="580" y="150" />
+        <di:waypoint x="580" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

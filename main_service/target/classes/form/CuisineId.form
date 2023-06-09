@@ -1,0 +1,25 @@
+{
+  "components": [
+    {
+      "label": "cuisineId",
+      "type": "number",
+      "layout": {
+        "row": "Row_0v4r0v0",
+        "columns": null
+      },
+      "id": "Field_1ll31td",
+      "key": "cuisineId",
+      "properties": {},
+      "disabled": false
+    }
+  ],
+  "type": "default",
+  "id": "cuisineId",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "schemaVersion": 8
+}
