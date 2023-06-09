@@ -55,7 +55,7 @@ public class SignIn implements JavaDelegate {
 
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) jwtUtils.getAuthoritiesFromToken(accessAndRefreshToken.getAccessToken());
         delegateExecution.setVariable("role", authorities.get(0).getAuthority());
-
+        delegateExecution.removeVariable("password");
 
     }
 }

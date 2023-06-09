@@ -1,0 +1,73 @@
+{
+  "components": [
+    {
+      "label": "dishName",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_143k5d4",
+        "columns": null
+      },
+      "id": "Field_0evc043",
+      "key": "dishName"
+    },
+    {
+      "label": "description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_04ifxdu",
+        "columns": null
+      },
+      "id": "Field_034519z",
+      "key": "description"
+    },
+    {
+      "label": "countPortion",
+      "type": "number",
+      "layout": {
+        "row": "Row_0pcsln6",
+        "columns": null
+      },
+      "id": "Field_061at1j",
+      "key": "countPortion"
+    },
+    {
+      "label": "nationalCuisineName",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_03qdu13",
+        "columns": null
+      },
+      "id": "Field_1f53ixc",
+      "key": "nationalCuisineName"
+    },
+    {
+      "label": "tastesNames",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1w2jj09",
+        "columns": null
+      },
+      "id": "Field_0zst6c4",
+      "key": "tastesNames"
+    },
+    {
+      "label": "ingredientsNames",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_15a2jy4",
+        "columns": null
+      },
+      "id": "Field_03oc1j6",
+      "key": "ingredientsNames"
+    }
+  ],
+  "type": "default",
+  "id": "recipeWithoutId",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "schemaVersion": 8
+}
