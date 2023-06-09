@@ -17,10 +17,9 @@ import java.util.List;
 @Component
 public class SignIn implements JavaDelegate {
 
-    private final UserService userService;
 
     private final JwtUtils jwtUtils;
-
+    private final UserService userService;
 
     public SignIn(UserService userService, JwtUtils jwtUtils) {
         this.userService = userService;
