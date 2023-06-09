@@ -8,7 +8,8 @@
         "columns": null
       },
       "id": "Field_0bn8uim",
-      "key": "username"
+      "key": "username",
+      "defaultValue": "sullensoul"
     },
     {
       "label": "password",
@@ -18,11 +19,12 @@
         "columns": null
       },
       "id": "Field_0gr7nit",
-      "key": "password"
+      "key": "password",
+      "defaultValue": "sullensoul"
     }
   ],
   "type": "default",
-  "id": "signIn",
+  "id": "signin",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.11.0"
