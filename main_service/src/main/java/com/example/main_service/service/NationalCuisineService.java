@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class NationalCuisineService {
     private final NationalCuisineRepository nationalCuisineRepository;
@@ -24,6 +26,7 @@ public class NationalCuisineService {
     public NationalCuisine findNationalCuisineByName(String cuisine) {
         return nationalCuisineRepository.findNationalCuisineByCuisine(cuisine).orElseThrow(() -> new ResourceNotFoundException("Нац. кухня " + cuisine + " не существует!"));
     }
+
 
     public NationalCuisine saveCuisine(AddCuisineRequest addCuisineRequest) {
         NationalCuisine cuisine = new NationalCuisine(addCuisineRequest.getCuisine());

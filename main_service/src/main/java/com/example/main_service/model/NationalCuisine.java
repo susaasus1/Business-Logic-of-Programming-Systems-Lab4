@@ -4,12 +4,14 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "national_cuisine")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class NationalCuisine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

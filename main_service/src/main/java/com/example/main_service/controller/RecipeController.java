@@ -1,5 +1,6 @@
 package com.example.main_service.controller;
 
+import com.example.main_service.dto.response.RecipeOnReviewResponse;
 import com.example.main_service.mapper.RecipeDTOMapper;
 import com.example.main_service.mapper.RecipeOnReviewDTOMapper;
 import com.example.main_service.dto.request.AddRecipeRequest;
@@ -107,9 +108,9 @@ public class RecipeController {
     }
 
     @GetMapping("/review")
-    public List<RecipeResponse> getAllRecipesOnReview(@RequestParam(defaultValue = "0") int page,
-                                                      @RequestParam(defaultValue = "10") int size,
-                                                      @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
+    public List<RecipeOnReviewResponse> getAllRecipesOnReview(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "10") int size,
+                                                              @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder) {
 
         return recipeOnReviewService.
                 getAllRecipesOnReview(page, size, sortOrder.toString()).

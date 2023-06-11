@@ -2,15 +2,16 @@ package com.example.main_service.service;
 
 import com.example.main_service.exception.ResourceNotFoundException;
 import com.example.main_service.model.*;
-import com.example.main_service.repository.RecipeOnReviewRepository;
-import com.example.main_service.repository.RecipeRepository;
+import com.example.main_service.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.main_service.dto.EmailDetails;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class RecipeOnReviewService {
     private final RecipeRepository recipeRepository;
     private final RecipeOnReviewRepository recipeOnReviewRepository;
+
 
     private final UserService userService;
 
@@ -31,12 +33,16 @@ public class RecipeOnReviewService {
 
     private final EmailService emailService;
 
+    private final RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository;
+
+    private final RecipeOnReviewTastesRepository recipeOnReviewTastesRepository;
+
 
     public RecipeOnReviewService(RecipeRepository recipeRepository,
                                  RecipeOnReviewRepository recipeOnReviewRepository,
                                  UserService userService, DishService dishService,
                                  IngredientsService ingredientsService, TastesService tastesService,
-                                 NationalCuisineService nationalCuisineService, EmailService emailService) {
+                                 NationalCuisineService nationalCuisineService, EmailService emailService, RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeOnReviewRepository = recipeOnReviewRepository;
         this.userService = userService;
@@ -45,8 +51,11 @@ public class RecipeOnReviewService {
         this.tastesService = tastesService;
         this.nationalCuisineService = nationalCuisineService;
         this.emailService = emailService;
+        this.recipeOnReviewIngredientsRepository = recipeOnReviewIngredientsRepository;
+        this.recipeOnReviewTastesRepository = recipeOnReviewTastesRepository;
     }
 
+    @Transactional(transactionManager = "transactionManager")
     public void saveRecipe(Long id, String admin) {
         Optional<RecipeOnReview> recipeOnReview = recipeOnReviewRepository.findById(id);
         if (recipeOnReview.isEmpty()) {
@@ -57,8 +66,29 @@ public class RecipeOnReviewService {
         Dish dish = dishService.findDishByName(recipeOnReview.get().getDish().getName());
         User user = userService.findUserByLogin(recipeOnReview.get().getUser().getLogin());
         NationalCuisine nationalCuisine = nationalCuisineService.findNationalCuisineByName(recipeOnReview.get().getNationalCuisine().getCuisine());
-        List<Tastes> tastesList = tastesService.findAllTastesByTasteNames(recipeOnReview.get().getAllTastesName());
-        List<Ingredients> ingredientsList = ingredientsService.findAllIngredientsByNames(recipeOnReview.get().getAllIngredientsName());
+        List<Tastes> tastesList = new ArrayList<>();
+        List<Ingredients> ingredientsList = new ArrayList<>();
+
+        List<RecipeOnReviewIngredients> recipeOnReviewIngredients = recipeOnReviewIngredientsRepository.
+                getAllByRecipeId(recipeOnReview.get().getId());
+        List<RecipeOnReviewTastes> recipeOnReviewTastes = recipeOnReviewTastesRepository.
+                getAllByRecipeId(recipeOnReview.get().getId());
+
+
+        for (RecipeOnReviewIngredients recipeOnReviewIngredient : recipeOnReviewIngredients) {
+            ingredientsList.add(ingredientsService.getIngredient(recipeOnReviewIngredient.getIngredientId()));
+            recipeOnReviewIngredientsRepository.delete(recipeOnReviewIngredient);
+        }
+
+        for (RecipeOnReviewTastes recipeOnReviewTaste : recipeOnReviewTastes) {
+            tastesList.add(tastesService.getTaste(recipeOnReviewTaste.getTasteId()));
+            recipeOnReviewTastesRepository.delete(recipeOnReviewTaste);
+
+        }
+
+
+//        List<Tastes> tastesList = tastesService.findAllTastesByTasteNames(recipeOnReview.get().getAllTastesName());
+//        List<Ingredients> ingredientsList = ingredientsService.findAllIngredientsByNames(recipeOnReview.get().getAllIngredientsName());
         recipe.setDish(dish);
         recipe.setDescription(recipeOnReview.get().getDescription());
         recipe.setId(recipeOnReview.get().getId());
@@ -80,6 +110,7 @@ public class RecipeOnReviewService {
         );
     }
 
+    @Transactional(transactionManager = "transactionManager")
     public void deleteRecipe(Long id, String admin, String declineReason) {
         Optional<RecipeOnReview> recipe = recipeOnReviewRepository.findById(id);
         if (recipe.isEmpty()) {
@@ -88,6 +119,8 @@ public class RecipeOnReviewService {
 
         String email = recipe.get().getUser().getEmail();
 
+        recipeOnReviewIngredientsRepository.deleteAllByRecipeId(recipe.get().getId());
+        recipeOnReviewTastesRepository.deleteAllByRecipeId(recipe.get().getId());
         recipeOnReviewRepository.deleteById(id);
         emailService.sendSimpleMail(
                 new EmailDetails(email,

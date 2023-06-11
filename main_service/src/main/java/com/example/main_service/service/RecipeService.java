@@ -3,7 +3,9 @@ package com.example.main_service.service;
 import com.example.main_service.dto.request.AddRecipeRequest;
 import com.example.main_service.dto.request.UpdateRecipeRequest;
 import com.example.main_service.model.*;
+import com.example.main_service.repository.RecipeOnReviewIngredientsRepository;
 import com.example.main_service.repository.RecipeOnReviewRepository;
+import com.example.main_service.repository.RecipeOnReviewTastesRepository;
 import com.example.main_service.repository.RecipeRepository;
 import com.example.main_service.exception.PermissionDeniedException;
 import com.example.main_service.exception.ResourceNotFoundException;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -33,11 +37,16 @@ public class RecipeService {
 
     private final NationalCuisineService nationalCuisineService;
 
+    private final RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository;
+
+    private final RecipeOnReviewTastesRepository recipeOnReviewTastesRepository;
+
 
     public RecipeService(RecipeRepository recipeRepository, RecipeOnReviewRepository recipeOnReviewRepository, UserService userService, DishService dishService,
                          IngredientsService ingredientsService, TastesService tastesService,
                          NationalCuisineService nationalCuisineService,
-                         @Qualifier("singletonRecipe") Recipe recipeOfTheDay) {
+                         @Qualifier("singletonRecipe") Recipe recipeOfTheDay,
+                         RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeOnReviewRepository = recipeOnReviewRepository;
         this.userService = userService;
@@ -46,8 +55,12 @@ public class RecipeService {
         this.tastesService = tastesService;
         this.nationalCuisineService = nationalCuisineService;
         this.recipeOfTheDay = recipeOfTheDay;
+        this.recipeOnReviewIngredientsRepository = recipeOnReviewIngredientsRepository;
+        this.recipeOnReviewTastesRepository = recipeOnReviewTastesRepository;
     }
 
+
+    @Transactional(transactionManager = "transactionManager")
     public RecipeOnReview saveRecipe(String login, AddRecipeRequest addRecipeRequest) {
         Dish dish = dishService.findDishByName(addRecipeRequest.getDishName());
         User user = userService.findUserByLogin(login);
@@ -55,8 +68,17 @@ public class RecipeService {
         List<Tastes> tastesList = tastesService.findAllTastesByTasteNames(addRecipeRequest.getTastesNames());
         List<Ingredients> ingredientsList = ingredientsService.findAllIngredientsByNames(addRecipeRequest.getIngredientsNames());
         RecipeOnReview recipe = new RecipeOnReview(addRecipeRequest.getDescription(),
-                addRecipeRequest.getCountPortion(), user, nationalCuisine, dish, tastesList, ingredientsList);
+                addRecipeRequest.getCountPortion(), user, nationalCuisine, dish);
         recipeOnReviewRepository.save(recipe);
+
+        for (Ingredients ingredient : ingredientsList) {
+            recipeOnReviewIngredientsRepository.save(new RecipeOnReviewIngredients(recipe.getId(), ingredient.getId()));
+        }
+
+        for (Tastes taste : tastesList) {
+            recipeOnReviewTastesRepository.save(new RecipeOnReviewTastes(recipe.getId(), taste.getId()));
+        }
+
         return recipe;
     }
 
@@ -94,8 +116,15 @@ public class RecipeService {
         recipeOnReview.setUser(user);
         recipeOnReview.setDish(dish);
         recipeOnReview.setNationalCuisine(nationalCuisine);
-        recipeOnReview.setIngredients(ingredientsList);
-        recipeOnReview.setTastes(tastesList);
+//        recipeOnReview.setIngredients(ingredientsList);
+//        recipeOnReview.setTastes(tastesList);
+        for (Ingredients ingredient : ingredientsList) {
+            recipeOnReviewIngredientsRepository.save(new RecipeOnReviewIngredients(recipeOnReview.getId(), ingredient.getId()));
+        }
+
+        for (Tastes taste : tastesList) {
+            recipeOnReviewTastesRepository.save(new RecipeOnReviewTastes(recipeOnReview.getId(), taste.getId()));
+        }
         recipeOnReview.setDescription(updateRecipeRequest.getDescription());
         recipeOnReview.setCountPortion(updateRecipeRequest.getCountPortion());
         recipeOnReview.setUpdateRecipe(id);

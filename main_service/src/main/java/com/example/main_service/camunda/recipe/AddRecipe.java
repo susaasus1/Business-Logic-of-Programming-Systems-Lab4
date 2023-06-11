@@ -25,7 +25,6 @@ public class AddRecipe implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) {
         String username = (String) delegateExecution.getVariable("username");
 
-
         String dishName = (String) delegateExecution.getVariable("dishName");
         String description = (String) delegateExecution.getVariable("description");
         Integer countPortion = (Integer) delegateExecution.getVariable("countPortion");
@@ -63,7 +62,6 @@ public class AddRecipe implements JavaDelegate {
             delegateExecution.setVariable("errorMessage", "Укажите ингредиенты!");
             throw new BpmnError("recipeError");
         }
-
 
 
         AddRecipeRequest addRecipeRequest = new AddRecipeRequest(
