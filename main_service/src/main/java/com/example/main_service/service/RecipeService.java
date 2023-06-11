@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -138,7 +139,6 @@ public class RecipeService {
         return recipeRepository.findAll(pageable);
     }
 
-    @Scheduled(fixedRate = 3600000L)
     public void updateRecipeOfTheDay() {
         List<Long> ids = recipeRepository.findIds();
         if (!ids.isEmpty()) {
@@ -146,6 +146,7 @@ public class RecipeService {
             int id = random.nextInt(ids.size());
             recipeOfTheDay = recipeRepository.findById(ids.get(id)).get();
         }
+        System.out.println("рецептик дня " + recipeOfTheDay.getId());
     }
 
     public Recipe getRecipeOfTheDay() {

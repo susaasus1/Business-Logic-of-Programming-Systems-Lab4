@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1vdz4p7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="recipeScheduled" name="RecipeScheduled" isExecutable="true" camunda:historyTimeToLive="500">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1pfz7ue</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1ldbtvu">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0 0/1 * * * ?</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1pfz7ue" sourceRef="StartEvent_1" targetRef="Activity_1ndewzw" />
+    <bpmn:serviceTask id="Activity_1ndewzw" name="Обновление рецепта дня" camunda:delegateExpression="#{recipeScheduled}">
+      <bpmn:incoming>Flow_1pfz7ue</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bf4rey</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0bf4rey" sourceRef="Activity_1ndewzw" targetRef="Activity_0t6r5pv" />
+    <bpmn:userTask id="Activity_0t6r5pv" name="Рецепт дня обновлен">
+      <bpmn:incoming>Flow_0bf4rey</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zf0p56</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1d5eo2f">
+      <bpmn:incoming>Flow_0zf0p56</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0zf0p56" sourceRef="Activity_0t6r5pv" targetRef="Event_1d5eo2f" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="recipeScheduled">
+      <bpmndi:BPMNShape id="Event_0dr4va9_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10cqv65_di" bpmnElement="Activity_1ndewzw">
+        <dc:Bounds x="290" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17lsca4_di" bpmnElement="Activity_0t6r5pv">
+        <dc:Bounds x="500" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1d5eo2f_di" bpmnElement="Event_1d5eo2f">
+        <dc:Bounds x="712" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1pfz7ue_di" bpmnElement="Flow_1pfz7ue">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="290" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bf4rey_di" bpmnElement="Flow_0bf4rey">
+        <di:waypoint x="390" y="120" />
+        <di:waypoint x="500" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zf0p56_di" bpmnElement="Flow_0zf0p56">
+        <di:waypoint x="600" y="120" />
+        <di:waypoint x="712" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

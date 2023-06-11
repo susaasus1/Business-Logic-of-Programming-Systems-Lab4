@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0v2nk0p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="getRecipeOfTheDay" name="GetRecipeOfTheDay" isExecutable="true" camunda:historyTimeToLive="500">
-    <bpmn:startEvent id="StartEvent_1">
-      <bpmn:outgoing>Flow_1jo2320</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_02x2wqx" name="Процесс получения рецепта дня" camunda:delegateExpression="#{getRecipeOfTheDay}">
-      <bpmn:incoming>Flow_1jo2320</bpmn:incoming>
-      <bpmn:outgoing>Flow_148dlav</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:userTask id="Activity_1xvc301" name="Произошла ошибка!">
       <bpmn:incoming>Flow_1i2hw91</bpmn:incoming>
     </bpmn:userTask>
@@ -22,10 +15,17 @@
       <bpmn:outgoing>Flow_1i2hw91</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0aw4a12" errorRef="Error_0278cx0" />
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_148dlav" sourceRef="Activity_02x2wqx" targetRef="Activity_1evzmio" />
-    <bpmn:sequenceFlow id="Flow_1i2hw91" sourceRef="Event_0h7j6fn" targetRef="Activity_1xvc301" />
     <bpmn:sequenceFlow id="Flow_0lywzjx" sourceRef="Activity_1evzmio" targetRef="Event_173qcz4" />
+    <bpmn:serviceTask id="Activity_02x2wqx" name="Процесс получения рецепта дня" camunda:delegateExpression="#{getRecipeOfTheDay}">
+      <bpmn:incoming>Flow_1jo2320</bpmn:incoming>
+      <bpmn:outgoing>Flow_148dlav</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_148dlav" sourceRef="Activity_02x2wqx" targetRef="Activity_1evzmio" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1jo2320</bpmn:outgoing>
+    </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1jo2320" sourceRef="StartEvent_1" targetRef="Activity_02x2wqx" />
+    <bpmn:sequenceFlow id="Flow_1i2hw91" sourceRef="Event_0h7j6fn" targetRef="Activity_1xvc301" />
   </bpmn:process>
   <bpmn:error id="Error_0278cx0" name="Recipe Error" errorCode="recipeError" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
