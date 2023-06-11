@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "recipeId",
+      "type": "number",
+      "layout": {
+        "row": "Row_0ezl9e8",
+        "columns": null
+      },
+      "id": "Field_054b8zw",
+      "key": "recipeId"
+    }
+  ],
+  "type": "default",
+  "id": "recipeId",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

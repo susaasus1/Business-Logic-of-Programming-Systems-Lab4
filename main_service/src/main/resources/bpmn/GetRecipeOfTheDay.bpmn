@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0v2nk0p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="getRecipeOfTheDay" name="GetRecipeOfTheDay" isExecutable="true" camunda:historyTimeToLive="500">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1jo2320</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_02x2wqx" name="Процесс получения рецепта дня" camunda:delegateExpression="#{getRecipeOfTheDay}">
+      <bpmn:incoming>Flow_1jo2320</bpmn:incoming>
+      <bpmn:outgoing>Flow_148dlav</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_1xvc301" name="Произошла ошибка!">
+      <bpmn:incoming>Flow_1i2hw91</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1evzmio" name="Получение рецепта дня">
+      <bpmn:incoming>Flow_148dlav</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lywzjx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_173qcz4">
+      <bpmn:incoming>Flow_0lywzjx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_0h7j6fn" attachedToRef="Activity_02x2wqx">
+      <bpmn:outgoing>Flow_1i2hw91</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0aw4a12" errorRef="Error_0278cx0" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_148dlav" sourceRef="Activity_02x2wqx" targetRef="Activity_1evzmio" />
+    <bpmn:sequenceFlow id="Flow_1i2hw91" sourceRef="Event_0h7j6fn" targetRef="Activity_1xvc301" />
+    <bpmn:sequenceFlow id="Flow_0lywzjx" sourceRef="Activity_1evzmio" targetRef="Event_173qcz4" />
+    <bpmn:sequenceFlow id="Flow_1jo2320" sourceRef="StartEvent_1" targetRef="Activity_02x2wqx" />
+  </bpmn:process>
+  <bpmn:error id="Error_0278cx0" name="Recipe Error" errorCode="recipeError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="getRecipeOfTheDay">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bvid00_di" bpmnElement="Activity_02x2wqx">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1uipint_di" bpmnElement="Activity_1xvc301">
+        <dc:Bounds x="270" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00mypb3_di" bpmnElement="Activity_1evzmio">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_173qcz4_di" bpmnElement="Event_173qcz4">
+        <dc:Bounds x="592" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1q5mra1_di" bpmnElement="Event_0h7j6fn">
+        <dc:Bounds x="322" y="139" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_148dlav_di" bpmnElement="Flow_148dlav">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i2hw91_di" bpmnElement="Flow_1i2hw91">
+        <di:waypoint x="340" y="175" />
+        <di:waypoint x="340" y="193" />
+        <di:waypoint x="320" y="193" />
+        <di:waypoint x="320" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lywzjx_di" bpmnElement="Flow_0lywzjx">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="592" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jo2320_di" bpmnElement="Flow_1jo2320">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -100,6 +100,7 @@ public class RecipeService {
         recipeRepository.delete(recipe);
     }
 
+    @Transactional(transactionManager = "transactionManager")
     public RecipeOnReview updateRecipe(String login, Long id, UpdateRecipeRequest updateRecipeRequest) {
         Recipe recipe = findRecipeById(id);
         User user = userService.findUserByLogin(login);
