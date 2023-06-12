@@ -6,8 +6,11 @@ import com.example.main_service.service.TastesService;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+
+@Component
 
 public class GetAllTastes implements JavaDelegate {
     private final TastesService tastesService;
@@ -18,8 +21,8 @@ public class GetAllTastes implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        Integer page = (Integer) delegateExecution.getVariable("page");
-        Integer size = (Integer) delegateExecution.getVariable("size");
+        Integer page = Integer.parseInt((String) delegateExecution.getVariable("page"));
+        Integer size = Integer.parseInt((String) delegateExecution.getVariable("size"));
 
         if (page == null) page = 1;
         if (size == null) size = 10;

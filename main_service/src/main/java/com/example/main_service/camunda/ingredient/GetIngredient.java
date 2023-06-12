@@ -7,6 +7,9 @@ import com.example.main_service.service.IngredientsService;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.stereotype.Component;
+
+@Component
 
 public class GetIngredient implements JavaDelegate {
     private final IngredientsService ingredientsService;

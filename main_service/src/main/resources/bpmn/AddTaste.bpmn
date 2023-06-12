@@ -4,7 +4,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0ta2vym</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_0nsy2w0" name="Ввести данные" camunda:formRef="taste" camunda:formRefBinding="latest">
+    <bpmn:userTask id="Activity_0nsy2w0" name="Ввести данные" camunda:formRef="addTaste" camunda:formRefBinding="latest">
       <bpmn:incoming>Flow_0wwlt9x</bpmn:incoming>
       <bpmn:incoming>Flow_1pkfoey</bpmn:incoming>
       <bpmn:outgoing>Flow_19fhavt</bpmn:outgoing>
@@ -80,6 +80,10 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="279" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15ghnlj_di" bpmnElement="Activity_0nsy2w0">
+        <dc:Bounds x="850" y="257" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1oa6y2c_di" bpmnElement="Activity_088s7re">
         <dc:Bounds x="470" y="257" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -99,10 +103,6 @@
       <bpmndi:BPMNShape id="Event_0620vh2_di" bpmnElement="Event_0620vh2">
         <dc:Bounds x="792" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15ghnlj_di" bpmnElement="Activity_0nsy2w0">
-        <dc:Bounds x="850" y="257" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_10hg4uu_di" bpmnElement="Activity_09mpjez">
         <dc:Bounds x="1050" y="257" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -116,23 +116,23 @@
       <bpmndi:BPMNShape id="Activity_05z0dy2_di" bpmnElement="Activity_0xognod">
         <dc:Bounds x="1240" y="257" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0k861kj_di" bpmnElement="Event_0k861kj">
-        <dc:Bounds x="552" y="239" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0qzovri_di" bpmnElement="Event_0qzovri">
         <dc:Bounds x="1132" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0k861kj_di" bpmnElement="Event_0k861kj">
+        <dc:Bounds x="552" y="239" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0ta2vym_di" bpmnElement="Flow_0ta2vym">
         <di:waypoint x="215" y="297" />
         <di:waypoint x="290" y="297" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_005vszx_di" bpmnElement="Flow_005vszx">
-        <di:waypoint x="570" y="297" />
-        <di:waypoint x="665" y="297" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ag0k0d_di" bpmnElement="Flow_0ag0k0d">
         <di:waypoint x="390" y="297" />
         <di:waypoint x="470" y="297" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_005vszx_di" bpmnElement="Flow_005vszx">
+        <di:waypoint x="570" y="297" />
+        <di:waypoint x="665" y="297" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0f0p4v3_di" bpmnElement="Flow_0f0p4v3">
         <di:waypoint x="430" y="160" />

@@ -8,6 +8,9 @@ import com.example.main_service.service.TastesService;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.stereotype.Component;
+
+@Component
 
 public class UpdateTaste implements JavaDelegate {
     private final TastesService tastesService;
