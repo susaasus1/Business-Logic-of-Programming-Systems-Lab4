@@ -1,0 +1,24 @@
+{
+  "components": [
+    {
+      "label": "Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0fxv4k9",
+        "columns": null
+      },
+      "id": "Field_0knl0qx",
+      "key": "id",
+      "defaultValue": "1"
+    }
+  ],
+  "type": "default",
+  "id": "DaGForm",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

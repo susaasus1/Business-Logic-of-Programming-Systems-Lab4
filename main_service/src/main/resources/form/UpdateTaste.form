@@ -1,0 +1,35 @@
+{
+  "components": [
+    {
+      "label": "Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0oxpd1e",
+        "columns": null
+      },
+      "id": "Field_07p3xba",
+      "key": "id",
+      "defaultValue": "1"
+    },
+    {
+      "label": "Taste",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0vb4yrx",
+        "columns": null
+      },
+      "id": "Field_1efp6oi",
+      "key": "taste",
+      "defaultValue": "Лазурный"
+    }
+  ],
+  "type": "default",
+  "id": "updateTaste",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

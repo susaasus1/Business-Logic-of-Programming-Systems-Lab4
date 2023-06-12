@@ -1,0 +1,24 @@
+{
+  "components": [
+    {
+      "label": "Taste",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0oxpd1e",
+        "columns": null
+      },
+      "id": "Field_07p3xba",
+      "key": "taste",
+      "defaultValue": "taste"
+    }
+  ],
+  "type": "default",
+  "id": "addTaste",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

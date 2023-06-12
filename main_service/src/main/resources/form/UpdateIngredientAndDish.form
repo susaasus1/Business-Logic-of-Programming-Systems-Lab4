@@ -1,0 +1,46 @@
+{
+  "components": [
+    {
+      "label": "Id",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0i3tx34",
+        "columns": null
+      },
+      "id": "Field_09lnptb",
+      "key": "id",
+      "defaultValue": "1"
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1c5z54u",
+        "columns": null
+      },
+      "id": "Field_1c8pu0l",
+      "key": "name",
+      "defaultValue": "name"
+    },
+    {
+      "label": "Description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0xpaaiq",
+        "columns": null
+      },
+      "id": "Field_1m7f94e",
+      "key": "description",
+      "defaultValue": "description"
+    }
+  ],
+  "type": "default",
+  "id": "updateIaD",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

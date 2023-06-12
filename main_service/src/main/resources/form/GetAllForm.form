@@ -1,0 +1,35 @@
+{
+  "components": [
+    {
+      "label": "Page",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0cln9u2",
+        "columns": null
+      },
+      "id": "Field_0fkkpu4",
+      "key": "page",
+      "defaultValue": "1"
+    },
+    {
+      "label": "Size",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ee43a6",
+        "columns": null
+      },
+      "id": "Field_0u4957c",
+      "key": "size",
+      "defaultValue": "5"
+    }
+  ],
+  "type": "default",
+  "id": "GetAllForm",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}
