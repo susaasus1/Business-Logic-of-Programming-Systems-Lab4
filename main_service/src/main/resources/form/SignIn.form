@@ -24,7 +24,7 @@
     }
   ],
   "type": "default",
-  "id": "signin",
+  "id": "signIn",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.11.0"
