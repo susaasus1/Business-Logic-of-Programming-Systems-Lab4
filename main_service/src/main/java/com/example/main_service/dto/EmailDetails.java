@@ -3,9 +3,11 @@ package com.example.main_service.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class EmailDetails {
+public class EmailDetails implements Serializable {
     private String recipient;
     private String msgBody;
     private String subject;

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1df58bx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="sendEmail" name="SendEmail" isExecutable="true" camunda:historyTimeToLive="500">
+    <bpmn:startEvent id="Event_0rnrhb0">
+      <bpmn:outgoing>Flow_18ivd4r</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1vn10mp" messageRef="Message_18o9ppc" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_14jw5fz" name="Получил сообщение">
+      <bpmn:incoming>Flow_18ivd4r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0af7p2f</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_11h4dmi" name="Рассылка сообщений" camunda:delegateExpression="#{recipeEmailSender}">
+      <bpmn:incoming>Flow_0af7p2f</bpmn:incoming>
+      <bpmn:outgoing>Flow_12ia5ce</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_01ilcru" name="Сообщение отправлено!">
+      <bpmn:incoming>Flow_12ia5ce</bpmn:incoming>
+      <bpmn:outgoing>Flow_04e6o1e</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_12eu7hy">
+      <bpmn:incoming>Flow_04e6o1e</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_18ivd4r" sourceRef="Event_0rnrhb0" targetRef="Activity_14jw5fz" />
+    <bpmn:sequenceFlow id="Flow_0af7p2f" sourceRef="Activity_14jw5fz" targetRef="Activity_11h4dmi" />
+    <bpmn:sequenceFlow id="Flow_12ia5ce" sourceRef="Activity_11h4dmi" targetRef="Activity_01ilcru" />
+    <bpmn:sequenceFlow id="Flow_04e6o1e" sourceRef="Activity_01ilcru" targetRef="Event_12eu7hy" />
+  </bpmn:process>
+  <bpmn:message id="Message_18o9ppc" name="emailSend" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="sendEmail">
+      <bpmndi:BPMNShape id="Event_0so6wvi_di" bpmnElement="Event_0rnrhb0">
+        <dc:Bounds x="192" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_180de3b_di" bpmnElement="Activity_14jw5fz">
+        <dc:Bounds x="313" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ao9xgb_di" bpmnElement="Activity_11h4dmi">
+        <dc:Bounds x="523" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13c6aan_di" bpmnElement="Activity_01ilcru">
+        <dc:Bounds x="713" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12eu7hy_di" bpmnElement="Event_12eu7hy">
+        <dc:Bounds x="905" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_18ivd4r_di" bpmnElement="Flow_18ivd4r">
+        <di:waypoint x="228" y="120" />
+        <di:waypoint x="313" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0af7p2f_di" bpmnElement="Flow_0af7p2f">
+        <di:waypoint x="413" y="120" />
+        <di:waypoint x="523" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12ia5ce_di" bpmnElement="Flow_12ia5ce">
+        <di:waypoint x="623" y="120" />
+        <di:waypoint x="713" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04e6o1e_di" bpmnElement="Flow_04e6o1e">
+        <di:waypoint x="813" y="120" />
+        <di:waypoint x="905" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

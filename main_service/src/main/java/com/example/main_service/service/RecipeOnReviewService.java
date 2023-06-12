@@ -37,12 +37,15 @@ public class RecipeOnReviewService {
 
     private final RecipeOnReviewTastesRepository recipeOnReviewTastesRepository;
 
+    private final RecipeIngredientsRepository recipeIngredientsRepository;
+
+    private final RecipeTastesRepository recipeTastesRepository;
 
     public RecipeOnReviewService(RecipeRepository recipeRepository,
                                  RecipeOnReviewRepository recipeOnReviewRepository,
                                  UserService userService, DishService dishService,
                                  IngredientsService ingredientsService, TastesService tastesService,
-                                 NationalCuisineService nationalCuisineService, EmailService emailService, RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository) {
+                                 NationalCuisineService nationalCuisineService, EmailService emailService, RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository, RecipeIngredientsRepository recipeIngredientsRepository, RecipeTastesRepository recipeTastesRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeOnReviewRepository = recipeOnReviewRepository;
         this.userService = userService;
@@ -53,10 +56,12 @@ public class RecipeOnReviewService {
         this.emailService = emailService;
         this.recipeOnReviewIngredientsRepository = recipeOnReviewIngredientsRepository;
         this.recipeOnReviewTastesRepository = recipeOnReviewTastesRepository;
+        this.recipeIngredientsRepository = recipeIngredientsRepository;
+        this.recipeTastesRepository = recipeTastesRepository;
     }
 
     @Transactional(transactionManager = "transactionManager")
-    public void saveRecipe(Long id, String admin) {
+    public Recipe saveRecipe(Long id) {
         Optional<RecipeOnReview> recipeOnReview = recipeOnReviewRepository.findById(id);
         if (recipeOnReview.isEmpty()) {
             throw new ResourceNotFoundException("Рецепта с id=" + id + " не существует!");
@@ -78,36 +83,43 @@ public class RecipeOnReviewService {
         for (RecipeOnReviewIngredients recipeOnReviewIngredient : recipeOnReviewIngredients) {
             ingredientsList.add(ingredientsService.getIngredient(recipeOnReviewIngredient.getIngredientId()));
             recipeOnReviewIngredientsRepository.delete(recipeOnReviewIngredient);
+
         }
 
         for (RecipeOnReviewTastes recipeOnReviewTaste : recipeOnReviewTastes) {
             tastesList.add(tastesService.getTaste(recipeOnReviewTaste.getTasteId()));
             recipeOnReviewTastesRepository.delete(recipeOnReviewTaste);
-
         }
 
-
-//        List<Tastes> tastesList = tastesService.findAllTastesByTasteNames(recipeOnReview.get().getAllTastesName());
-//        List<Ingredients> ingredientsList = ingredientsService.findAllIngredientsByNames(recipeOnReview.get().getAllIngredientsName());
         recipe.setDish(dish);
         recipe.setDescription(recipeOnReview.get().getDescription());
         recipe.setId(recipeOnReview.get().getId());
-        recipe.setTastes(tastesList);
-        recipe.setIngredients(ingredientsList);
+//        recipe.setTastes(tastesList);
+//        recipe.setIngredients(ingredientsList);
         recipe.setCountPortion(recipeOnReview.get().getCountPortion());
         recipe.setNationalCuisine(nationalCuisine);
         recipe.setUser(user);
         if (recipeOnReview.get().getUpdateRecipe() != null) {
+            recipeIngredientsRepository.deleteAllByRecipeId(recipeOnReview.get().getUpdateRecipe());
+            recipeTastesRepository.deleteAllByRecipeId(recipeOnReview.get().getUpdateRecipe());
             recipeRepository.deleteById(recipeOnReview.get().getUpdateRecipe());
         }
         recipeOnReviewRepository.deleteById(id);
-        recipeRepository.save(recipe);
-        emailService.sendSimpleMail(
-                new EmailDetails(user.getEmail(),
-                        "Ваш рецепт №" + recipe.getId() + " был проверен и добавлен администратором " + admin,
-                        "Добавление рецепта на сайте povarenok.ru"
-                )
-        );
+        Long recipeId = recipeRepository.save(recipe).getId();
+
+
+        for (RecipeOnReviewIngredients recipeOnReviewIngredient : recipeOnReviewIngredients) {
+            recipeIngredientsRepository.save(new RecipeIngredients(recipeId, recipeOnReviewIngredient.getIngredientId()));
+
+        }
+
+        for (RecipeOnReviewTastes recipeOnReviewTaste : recipeOnReviewTastes) {
+            recipeTastesRepository.save(new RecipeTastes(recipeId, recipeOnReviewTaste.getTasteId()));
+        }
+
+
+
+        return recipe;
     }
 
     @Transactional(transactionManager = "transactionManager")

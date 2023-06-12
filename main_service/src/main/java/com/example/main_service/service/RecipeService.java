@@ -3,10 +3,7 @@ package com.example.main_service.service;
 import com.example.main_service.dto.request.AddRecipeRequest;
 import com.example.main_service.dto.request.UpdateRecipeRequest;
 import com.example.main_service.model.*;
-import com.example.main_service.repository.RecipeOnReviewIngredientsRepository;
-import com.example.main_service.repository.RecipeOnReviewRepository;
-import com.example.main_service.repository.RecipeOnReviewTastesRepository;
-import com.example.main_service.repository.RecipeRepository;
+import com.example.main_service.repository.*;
 import com.example.main_service.exception.PermissionDeniedException;
 import com.example.main_service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,12 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -42,12 +36,16 @@ public class RecipeService {
 
     private final RecipeOnReviewTastesRepository recipeOnReviewTastesRepository;
 
+    private final RecipeIngredientsRepository recipeIngredientsRepository;
+
+    private final RecipeTastesRepository recipeTastesRepository;
+
 
     public RecipeService(RecipeRepository recipeRepository, RecipeOnReviewRepository recipeOnReviewRepository, UserService userService, DishService dishService,
                          IngredientsService ingredientsService, TastesService tastesService,
                          NationalCuisineService nationalCuisineService,
                          @Qualifier("singletonRecipe") Recipe recipeOfTheDay,
-                         RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository) {
+                         RecipeOnReviewIngredientsRepository recipeOnReviewIngredientsRepository, RecipeOnReviewTastesRepository recipeOnReviewTastesRepository, RecipeIngredientsRepository recipeIngredientsRepository, RecipeTastesRepository recipeTastesRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeOnReviewRepository = recipeOnReviewRepository;
         this.userService = userService;
@@ -58,6 +56,8 @@ public class RecipeService {
         this.recipeOfTheDay = recipeOfTheDay;
         this.recipeOnReviewIngredientsRepository = recipeOnReviewIngredientsRepository;
         this.recipeOnReviewTastesRepository = recipeOnReviewTastesRepository;
+        this.recipeIngredientsRepository = recipeIngredientsRepository;
+        this.recipeTastesRepository = recipeTastesRepository;
     }
 
 
@@ -97,7 +97,8 @@ public class RecipeService {
         Recipe recipe = findRecipeById(id);
         User user = userService.findUserByLogin(login);
         checkUserOnRecipeOwner(user, recipe);
-
+        recipeOnReviewIngredientsRepository.deleteAllByRecipeId(recipe.getId());
+        recipeOnReviewTastesRepository.deleteAllByRecipeId(recipe.getId());
         recipeRepository.delete(recipe);
     }
 

@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "label": "recipeId",
+      "type": "number",
+      "layout": {
+        "row": "Row_1goqmzn",
+        "columns": null
+      },
+      "id": "Field_1gpw198",
+      "key": "recipeId"
+    },
+    {
+      "label": "declineReason",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_15jxi6o",
+        "columns": null
+      },
+      "id": "Field_00aluo8",
+      "key": "declineReason"
+    }
+  ],
+  "type": "default",
+  "id": "declineRecipe",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.11.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.19.0",
+  "schemaVersion": 8
+}

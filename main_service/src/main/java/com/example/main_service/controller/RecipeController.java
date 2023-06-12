@@ -95,8 +95,7 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void acceptRecipe(@RequestParam Long id,
                              HttpServletRequest httpServletRequest) {
-        String admin = jwtUtils.getLoginFromJwtToken(authTokenFilter.parseJwt(httpServletRequest));
-        recipeOnReviewService.saveRecipe(id, admin);
+        recipeOnReviewService.saveRecipe(id);
     }
 
     @DeleteMapping("decline")
